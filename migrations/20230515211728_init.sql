@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create type user_type as enum ('individual', 'legal_entity');
 
 create table if not exists users
@@ -21,7 +23,7 @@ create table if not exists users
     password          varchar(60),
 
     primary key (id)
-    );
+);
 
 create type ad_type as enum ('house');
 create type ad_status as enum ('active', 'inactive');
@@ -33,7 +35,7 @@ create table if not exists ads
     id                   bigserial,
     type                 ad_type      not null,
     user_id              bigint,
-    status               ad_status   default 'active',
+    status               ad_status default 'active',
     creation_date        timestamp default now(),
     modification_date    timestamp default now(),
     viewed               bigint,
@@ -49,7 +51,7 @@ create table if not exists ads
 
     primary key (id),
     foreign key (user_id) references users (id)
-    );
+);
 
 create table if not exists ad_images
 (
@@ -61,28 +63,46 @@ create table if not exists ad_images
     primary key (id),
     foreign key (ad_id) references ads (id),
     unique (ad_id, index)
-    );
+);
 
 create type building_type as enum ('Кирпичный', 'Панельный');
 
 create table if not exists apartments
 (
-    id            bigserial,
-    ad_id         bigint,
-    rooms         int  CHECK (rooms > 0 AND rooms <= 1000),
-    floor         int,
-    floors_number int,
-    building_type building_type,
-    sale_type     sale_type,
-    total_area      int,
-    residental_area int,
-    kitchen int,
+    id                bigserial,
+    ad_id             bigint,
+    rooms             int CHECK (rooms > 0 AND rooms <= 1000),
+    floor             int,
+    floors_number     int,
+    building_type     building_type,
+    sale_type         sale_type,
+    total_area        int,
+    residental_area   int,
+    kitchen           int,
     construction_year int,
-    description    varchar(2048),
+    description       varchar(2048),
 
-    city            varchar(256),
-    address         text,
+    city              varchar(256),
+    address           text,
 
     primary key (id),
     foreign key (ad_id) references ads (id)
-    );
+);
+
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop table if exists ads;
+drop table if exists users;
+drop table if exists ad_images;
+drop table if exists apartments;
+
+drop type user_type;
+drop type ad_type;
+drop type ad_status;
+drop type sale_type;
+drop type currency;
+drop type building_type;
+
+-- +goose StatementEnd

@@ -1,0 +1,15 @@
+version: "3"
+services:
+  db:
+    image: "postgres:15.2"
+    ports:
+      - "6432:5432"
+    environment:
+      - POSTGRES_USER=advertisements
+      - POSTGRES_PASSWORD=advertisements
+      - POSTGRES_DB=advertisements
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
