@@ -5,3 +5,4 @@ export GOOSE_DBSTRING="host=localhost port=6432 user=advertisements password=adv
 
 cd migrations
 goose up
+goose status
