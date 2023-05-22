@@ -1,7 +1,5 @@
 -- +goose Up
 -- +goose StatementBegin
-create type user_type as enum ('individual', 'legal_entity');
-
 create table if not exists users
 (
     id                bigserial,
@@ -16,7 +14,7 @@ create table if not exists users
     viber             varchar(32),
     instagram         varchar(32),
     photo_url         varchar(2048),
-    type              user_type,
+    type              int,
     registration_date timestamp,
     rating            numeric(1, 1),
     login             varchar(64),
@@ -25,17 +23,12 @@ create table if not exists users
     primary key (id)
 );
 
-create type ad_type as enum ('house');
-create type ad_status as enum ('active', 'inactive');
-create type sale_type as enum ('Длительно', 'Постуочно');
-create type currency as enum ('USD', 'EUR', 'TJS', 'RUB', 'UZS');
-
 create table if not exists ads
 (
     id                   bigserial,
-    type                 ad_type      not null,
+    type                 int      not null,
     user_id              bigint,
-    status               ad_status default 'active',
+    status               int default 0,
     creation_date        timestamp default now(),
     modification_date    timestamp default now(),
     viewed               bigint,
@@ -45,7 +38,7 @@ create table if not exists ads
     remote_demonstration bool         not null,
     price                bigint       not null,
     title                varchar(512),
-    price_currency       currency     not null,
+    price_currency       int     not null,
     tradable             bool,
     exchangeable         bool,
 
@@ -65,7 +58,6 @@ create table if not exists ad_images
     unique (ad_id, index)
 );
 
-create type building_type as enum ('Кирпичный', 'Панельный');
 
 create table if not exists apartments
 (
@@ -74,8 +66,8 @@ create table if not exists apartments
     rooms             int CHECK (rooms > 0 AND rooms <= 1000),
     floor             int,
     floors_number     int,
-    building_type     building_type,
-    sale_type         sale_type,
+    building_type     int,
+    sale_type         int,
     total_area        int,
     residental_area   int,
     kitchen           int,
@@ -93,16 +85,9 @@ create table if not exists apartments
 
 -- +goose Down
 -- +goose StatementBegin
-drop table if exists ads;
-drop table if exists users;
 drop table if exists ad_images;
 drop table if exists apartments;
-
-drop type user_type;
-drop type ad_type;
-drop type ad_status;
-drop type sale_type;
-drop type currency;
-drop type building_type;
+drop table if exists ads;
+drop table if exists users;
 
 -- +goose StatementEnd

@@ -1,4 +1,4 @@
-package models
+package model
 
 type AdType int
 type AdStatus int
