@@ -36,6 +36,11 @@ func main() {
 
 	r.Route("/api/v1", func(r chi.Router) {
 		// TOTO: Write here all REST
+		r.Get("/ads", handler.GetAds(ctx))
+		r.Get("/ads/{ad_id}", handler.GetAdById(ctx))
+		r.Post("/ads", handler.AddAd(ctx))
+		r.Put("/ads/{ad_id}", handler.UpdateAdd(ctx))
+		r.Delete("/ads/{ad_id}", handler.DeleteAd(ctx))
 	})
 	_ = http.ListenAndServe("localhost:8080", r)
 }
