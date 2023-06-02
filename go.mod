@@ -7,6 +7,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/georgysavva/scany v1.2.1 // indirect
+	github.com/georgysavva/scany/v2 v2.0.0 // indirect
 	github.com/go-chi/chi/v5 v5.0.8 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.0 // indirect

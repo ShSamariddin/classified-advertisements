@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	sq "github.com/Masterminds/squirrel"
 	"log"
 	"os"
 
@@ -42,4 +43,8 @@ func GetPool() *pgxpool.Pool {
 	dbPool = pool
 
 	return pool
+}
+
+func Db() sq.StatementBuilderType {
+	return sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
 }

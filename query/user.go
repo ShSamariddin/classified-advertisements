@@ -7,13 +7,13 @@ import (
 	"github.com/ShSamariddin/classified-advertisements/db"
 	"github.com/ShSamariddin/classified-advertisements/model"
 	"github.com/ShSamariddin/classified-advertisements/utils"
+	"github.com/georgysavva/scany/v2/pgxscan"
 	"log"
 )
 
 func AddToTable(user model.User) {
 	values, names := utils.GetStructFields(user, map[string]bool{"Id": true})
-	fmt.Println(names)
-	query, args, err := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).
+	query, args, err := db.Db().
 		Insert("users").
 		Columns(names...).
 		Values(values...).
@@ -33,7 +33,7 @@ func AddToTable(user model.User) {
 
 func GetUserByPhone(phone string) model.User {
 	fmt.Println(phone)
-	query, args, err := sq.StatementBuilder.
+	query, args, err := db.Db().
 		Select("*").
 		From("users").
 		Where(sq.Eq{"phone": phone}).
@@ -41,9 +41,8 @@ func GetUserByPhone(phone string) model.User {
 	if err != nil {
 		log.Fatal("Error selecting user by phone:", err)
 	}
-	user := model.User{}
-	err = db.GetPool().QueryRow(context.Background(), query, args...).Scan(&user)
-	fmt.Println(user)
+	var user model.User
+	err = pgxscan.Get(context.Background(), db.GetPool(), &user, query, args...)
 	if err != nil {
 		log.Fatal("Error executing select query:", err)
 	}
