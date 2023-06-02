@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/Masterminds/squirrel v1.5.4 // indirect
+	github.com/georgysavva/scany/v2 v2.0.0 // indirect
 	github.com/go-chi/chi/v5 v5.0.8 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
